@@ -1,1 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script>
+  /* ============================================
+     CONFIG — Edit this section only!
+  ============================================ */
+  const CONFIG = {
+    productName:  "Something Big",
+    tagline:      "We're working on something you'll love.",
+    launchDate:   "2026-09-01",   // YYYY-MM-DD format
+    darkMode:     "toggle",       // true | false | "toggle"
+    accentColor:  "#f472b6",      // any hex color
 
+    // Email signup — paste a Google Form or Mailchimp URL
+    // Leave as "#" to hide the signup form
+    signupUrl:    "#",
+    signupLabel:  "Notify me when it's ready",
+
+    // Optional social links — remove any you don't need
+    socials: [
+      { label: "Twitter",  url: "#" },
+      { label: "Discord",  url: "#" },
+      { label: "GitHub",   url: "#" },
+    ]
+  };
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080808; --surface: #111; --border: #222;
+      --text: #f0f0f0; --muted: #555; --accent: #f472b6;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1.25rem 4rem; transition: background 0.3s, color 0.3s;
+      text-align: center;
+    }
+
+    #themeToggle {
+      position: fixed; top: 1.2rem; right: 1.2rem;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); padding: 0.4rem 0.9rem;
+      border-radius: 999px; cursor: pointer;
+      font-size: 0.8rem; font-family: 'DM Sans', sans-serif;
+      font-weight: 500; transition: all 0.2s; display: none;
+    }
+    #themeToggle:hover { border-color: var(--accent); }
+
+    .wrap { width: 100%; max-width: 620px; display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+    .tag {
+      display: inline-block; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--accent);
+      border: 1px solid var(--border); padding: 5px 16px;
+      border-radius: 999px; background: var(--surface); margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 800; letter-spacing: -2.5px;
+      line-height: 1.02; margin-bottom: 1.25rem;
+    }
+    h1 span { color: var(--accent); }
+
+    .tagline {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 440px; line-height: 1.7; margin-bottom: 3rem;
+    }
+
+    /* COUNTDOWN */
+    .countdown {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 12px; width: 100%; margin-bottom: 3rem;
+    }
+    .unit {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.25rem 0.5rem;
+    }
+    .num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800; color: var(--accent);
+      line-height: 1; margin-bottom: 6px;
+    }
+    .unit-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* SIGNUP */
+    .signup-form {
+      display: flex; gap: 10px; width: 100%;
+      max-width: 440px; margin-bottom: 2.5rem; flex-wrap: wrap;
+      justify-content: center;
+    }
+    .signup-form input {
+      flex: 1; min-width: 200px; padding: 0.75rem 1.25rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .signup-form input::placeholder { color: var(--muted); }
+    .signup-form input:focus { border-color: var(--accent); }
+    .btn-signup {
+      padding: 0.75rem 1.75rem; background: var(--accent);
+      color: #fff; border: none; border-radius: 999px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-signup:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* SOCIALS */
+    .socials { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .social-link {
+      font-size: 0.82rem; padding: 6px 16px;
+      border: 1px solid var(--border); border-radius: 999px;
+      color: var(--muted); text-decoration: none;
+      transition: all 0.2s;
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* FOOTER */
+    .footer { position: fixed; bottom: 1.25rem; font-size: 0.75rem; color: var(--muted); }
+    .footer a { color: var(--muted); font-weight: 600; text-decoration: none; }
+    .footer a:hover { color: var(--text); }
+
+    @media (max-width: 400px) {
+      .countdown { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="themeToggle">☀️ Light</button>
+
+  <div class="wrap">
+    <span class="tag">✦ Coming Soon</span>
+    <h1 id="productName"></h1>
+    <p class="tagline" id="tagline"></p>
+
+    <div class="countdown">
+      <div class="unit"><div class="num" id="days">00</div><div class="unit-label">Days</div></div>
+      <div class="unit"><div class="num" id="hours">00</div><div class="unit-label">Hours</div></div>
+      <div class="unit"><div class="num" id="minutes">00</div><div class="unit-label">Mins</div></div>
+      <div class="unit"><div class="num" id="seconds">00</div><div class="unit-label">Secs</div></div>
+    </div>
+
+    <div class="signup-form" id="signupForm">
+      <input type="email" placeholder="Enter your email" id="emailInput"/>
+      <button class="btn-signup" id="signupBtn"></button>
+    </div>
+
+    <div class="socials" id="socialsWrap"></div>
+  </div>
+
+  <div class="footer">
+    <p>coming-soon-page-template was made by <a href="https://github.com/bloxiebuilds" target="_blank">bloxiebuilds</a></p>
+  </div>
+
+  <script>
+    // Theme
+    var btn = document.getElementById('themeToggle');
+    var isDark = true;
+    function setDark() {
+      document.documentElement.style.setProperty('--bg',      '#080808');
+      document.documentElement.style.setProperty('--surface', '#111111');
+      document.documentElement.style.setProperty('--border',  '#222222');
+      document.documentElement.style.setProperty('--text',    '#f0f0f0');
+      document.documentElement.style.setProperty('--muted',   '#555555');
+      btn.textContent = '☀️ Light'; isDark = true;
+    }
+    function setLight() {
+      document.documentElement.style.setProperty('--bg',      '#f8f8f8');
+      document.documentElement.style.setProperty('--surface', '#ffffff');
+      document.documentElement.style.setProperty('--border',  '#e5e5e5');
+      document.documentElement.style.setProperty('--text',    '#111111');
+      document.documentElement.style.setProperty('--muted',   '#999999');
+      btn.textContent = '🌙 Dark'; isDark = false;
+    }
+    document.documentElement.style.setProperty('--accent', CONFIG.accentColor);
+    if      (CONFIG.darkMode === true)   { setDark(); }
+    else if (CONFIG.darkMode === false)  { setLight(); }
+    else { setDark(); btn.style.display = 'block'; }
+    btn.addEventListener('click', function() { isDark ? setLight() : setDark(); });
+
+    // Render config
+    document.getElementById('productName').innerHTML = CONFIG.productName.replace(' ', '<br/><span>') + '</span>';
+    document.getElementById('tagline').textContent   = CONFIG.tagline;
+    document.getElementById('signupBtn').textContent = CONFIG.signupLabel;
+
+    // Signup form
+    if (CONFIG.signupUrl === '#') {
+      document.getElementById('signupForm').style.display = 'none';
+    } else {
+      document.getElementById('signupBtn').addEventListener('click', function() {
+        var email = document.getElementById('emailInput').value;
+        if (email) window.open(CONFIG.signupUrl + '?email=' + encodeURIComponent(email), '_blank');
+      });
+    }
+
+    // Socials
+    var sw = document.getElementById('socialsWrap');
+    CONFIG.socials.forEach(function(s) {
+      sw.innerHTML += '<a href="' + s.url + '" class="social-link" target="_blank">' + s.label + '</a>';
+    });
+
+    // Countdown
+    function updateCountdown() {
+      var target = new Date(CONFIG.launchDate);
+      var now = new Date();
+      var diff = target - now;
+      if (diff <= 0) {
+        ['days','hours','minutes','seconds'].forEach(function(id) {
+          document.getElementById(id).textContent = '00';
+        });
+        return;
+      }
+      document.getElementById('days').textContent    = String(Math.floor(diff / 86400000)).padStart(2, '0');
+      document.getElementById('hours').textContent   = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
